@@ -1,0 +1,274 @@
+/* navbar */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lateef:wght@200;300;400;500;600;700;800&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    
+}
+
+:root{
+    --main-bg-color: #057624;
+}
+
+.navbar-toggler{
+    margin-left: auto;
+}
+
+.navbar-toggler{
+    border: none;
+}
+
+.navbar-toggler:focus {
+    border: none;
+}
+
+.navbar-container{
+  width: 100%; 
+  height: auto;
+
+}
+
+.navbar{
+    padding: 0;
+    margin: 0;
+}
+
+.navbar ul{
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a{
+  color: #000;
+
+}
+
+.navbar a:hover{
+  color: #06850C;
+}
+
+.button{
+    background-color: var(--main-bg-color);
+    padding: 12px 50px 12px 50px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+}
+.button:hover{
+    background-color: #06850C;
+}
+
+hr{
+    margin: 0;
+}
+
+
+/*Live stream section*/
+.live-stream img{
+    width: 100%;
+    border-radius: 20px;
+    height: 80vh;
+}
+
+/*Live stream section End*/
+.today-verse{
+    font-family: "Lateef", serif;
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+}
+
+.box-verse{
+    width: 100%;
+    height: 245px;
+    border-radius : 14px;
+    background-color: var(--main-bg-color);
+
+}
+
+.box-verse img{
+    width: 100%;
+    opacity: 100%;
+    width: 50px;
+}
+.arrow{
+    position: relative;
+    top: 160px;
+    width: 30px !important; 
+    height: 32px;
+    padding: 5px;
+}
+
+/* navbar end */
+
+/*Front Section*/
+.front {
+    position: relative;
+    background-image: url('assets/first-bg.PNG');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 90vh;
+    z-index: 0;
+}
+
+.front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.front > * {
+    position: relative;
+    z-index: 2;
+}
+
+.h1{
+    padding-left: 10%;
+}
+
+/*About Church*/
+
+.about_church{
+    height: 100vh;
+}
+.about_church img{
+
+}
+
+.more{
+    background-color: var(--main-bg-color);
+    padding: 12px 50px 12px 50px;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff !important;
+    font-size: 14px;
+    font-weight: 500;
+    height: 45px;
+    border: none;
+    margin-left: 20px;
+}
+
+
+/*About Pastor*/
+
+.about_pastor {
+    background-color: #023107;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+}
+
+
+
+.pastor_logo {
+    
+    background-image: url('assets/logo/cbbc.png');
+    background-repeat: no-repeat;
+    background-size: contain; 
+    background-position:  center;
+    opacity: 0.1; 
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    width: 80%;
+    height: 80%;
+    z-index: 0;
+}
+
+.about_pastor .container {
+    position: relative;
+    z-index: 1;
+}
+
+.church_gallery{
+    height: 100vh;
+}
+
+.church_gallery img {
+    transition: filter 0.3s ease;
+}
+
+.church_gallery img:hover {
+    filter: brightness(70%);
+}
+
+.overlay {
+    background-color: rgba(0, 50, 0, 0.85);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+@media (max-width: 767.98px) {
+    .overlay {
+        height: 120%;
+    }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .overlay {
+        height: 120%;
+    }
+}
+
+.contact-container {
+    position: relative;
+    z-index: 1;
+}
+
+.contact-box {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    color: #00ff99;
+}
+
+.form-control::placeholder {
+    color: #999;
+}
+
+.btn-green {
+    background-color: #0a601c;
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #084c17;
+}
+
+.contact{
+    background: url('assets/contact.jpg') no-repeat center center/cover;
+    height: 100vh;
+    color: white;
+    position: relative;
+}
+
+.contact .row{
+    height: 80vh;
+}
+
+
+  
