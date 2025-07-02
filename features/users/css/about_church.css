@@ -1,0 +1,16 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+:root{
+    --main-bg-color: #057624;
+}
+
+body{
+    background-color: var(--main-bg-color);
+}
+
+p{
+    color: #fff;
+}
