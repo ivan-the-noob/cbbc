@@ -1,5 +1,7 @@
 
-
+<?php 
+    require 'db.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +24,7 @@
                     </div>
                     <div class="col-md-7 login-right">
                         <h5 class="mb-3">Sign Up</h5>
-                        <form method="POST" action="login.php">
+                        <form method="POST" action="features/authentication/function/signup.php">
                              <div class="mb-3">
                                 <input type="text" name="first_name" class="form-control" placeholder="first name" required>
                             </div>

@@ -29,14 +29,13 @@
                             <div class="mb-3">
                                 <input type="password" name="password" class="form-control" placeholder="Enter password" required>
                             </div>
-  
                             <div class="form-check mb-3">
                                 <input type="checkbox   " class="form-check-input" id="showPassword">
                                 <label class="form-check-label" for="showPassword">Show Password</label>
                             </div>
                             <button type="submit" class="btn btn-primary w-10 fw-bold form-button">Log in</button>
                             <div class="text-center mt-3">
-                                <a href="signup.html">Don't have an account? <span class="sign-up">Sign Up</span></a>
+                                <a href="signup.php">Don't have an account? <span class="sign-up">Sign Up</span></a>
                             </div>
                         </form>
                     </div>
