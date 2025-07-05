@@ -1,18 +1,11 @@
-<?php
-// session_start();
-// if (!isset($_SESSION['email']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-//     header("Location: ../../../users/web/api/login.php");
-//     exit();
-// }
 
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Account | Admin</title>
+    <title>Contact | Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/users.css">
@@ -28,59 +21,20 @@
     <div class="navbar flex-column bg-white shadow-sm p-3 collapse d-md-flex" id="navbar">
         <div class="navbar-links">
             <a class="navbar-brand d-none d-md-block logo-container" href="#">
-                <img src="../../../../assets/img/logo.png" alt="Logo">
+                <img src="../../../bg.png" alt="Logo">
             </a>
-            <a href="admin.php">
-                <i class="fa-solid fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="users.php" class="navbar-highlight">
-                <i class="fa-solid fa-users"></i>
+       
+            <a href="users.php">
                 <span>Users</span>
             </a>
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center" id="checkoutDropdowns" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <span class="ms-2">Booking</span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="checkoutDropdowns">
-                    <li><a class="dropdown-item" href="app-req.php"><i class="fa-solid fa-calendar-check"></i> <span>Pending Bookings</span></a></li>
-                    <li><a class="dropdown-item" href="app-waiting.php"><i class="fa-solid fa-calendar-check"></i> <span>Waiting Bookings</span></a></li>
-                    <li><a class="dropdown-item" href="app-ongoing.php"><i class="fa-solid fa-calendar-check"></i> <span>On Going Bookings</span></a></li>
-                    <li><a class="dropdown-item" href="app-finish.php"><i class="fa-solid fa-calendar-check"></i> <span>Finished Bookings</span></a></li>
-                    <li><a class="dropdown-item" href="app-cancel.php"><i class="fa-solid fa-calendar-check"></i> <span>Cancelled Bookings</span></a></li>
-                   
-                </ul>
-            </div>
-            <div class="dropdown">
-                <a href="#" class="d-flex align-items-center" id="checkoutDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <span class="ms-2">Checkout</span>
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="checkoutDropdown">
-                    <li><a class="dropdown-item" href="pending_checkout.php"><i class="fa-solid fa-calendar-check"></i> <span>Pending CheckOut</span></a></li>
-                    <li><a class="dropdown-item" href="to-ship_checkout.php"><i class="fa-solid fa-calendar-check"></i> <span>To-Ship</span></a></li>
-                    <li><a class="dropdown-item" href="to-receive.php"><i class="fa-solid fa-calendar-check"></i> <span>To-Receive</span></a></li>
-                    <li><a class="dropdown-item" href="delivered_checkout.php"><i class="fa-solid fa-calendar-check"></i> <span>Delivered</span></a></li>
-                    <li><a class="dropdown-item" href="decline.php"><i class="fa-solid fa-calendar-check"></i> <span>Declined</span></a></li>
-                </ul>
-            </div> 
 
-
-            <div class="maintenance">
-                <p class="maintenance-text">Maintenance</p>
-                <a href="service-list.php">
-                    <i class="fa-solid fa-list"></i>
-                    <span>Service List</span>
-                </a>
-                <a href="product.php">
-                    <i class="fa-solid fa-box"></i>
-                    <span>Product</span>
-                </a>
-                <a href="admin-user.php">
-                    <i class="fa-solid fa-user-shield"></i>
-                    <span>Admin User List</span>
-                </a>
+            <a href="gallery.php">
+                <span>Gallery</span>
+            </a>
+             <a href="contact.php" class="navbar-highlight">
+                <span>Contact</span>
+            </a>
+           
             </div>
 
         </div>
@@ -99,18 +53,18 @@
             <div class="profile-admin">
                 <div class="dropdown">
                     <button class="" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="../../../../assets/img/vet logo.png"
+                        <img src="../../../bg.png"
                             style="width: 40px; height: 40px; object-fit: cover;">
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="../../../users/web/api/logout.php">Logout</a></li>
+                        <li><a class="dropdown-item" href="../../authentication/function/logout.php">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <!--Notification and Profile Admin-->
         <div class="app-req">
-            <h3>User Accounts</h3>
+            <h3>Contact</h3>
             <div class="walk-in px-lg-5">
                 <div class="mb-3 x d-flex">
                     <div class="search">
@@ -119,8 +73,12 @@
                             <input type="text" class="form-control" placeholder="Search..." id="search-input">
                         </div>
                     </div>
-
                 </div>
+            </div>
+            <div class="container add_button d-flex justify-content-end">
+                
+                    </div>
+
             </div>
             <div class="table-wrapper px-lg-5">
                 <table class="table table-hover table-remove-borders">
@@ -128,15 +86,16 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Email</th>
-                            <th>Button</th>
+                            <th>Facebook Name</th>
+                            <th>Message</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
 
                         <?php
                         include '../../../db.php';
-                        include '../function/php/users.php'
+                        include '../function/php/contact.php'
                         ?>
 
                     </tbody>
@@ -169,8 +128,6 @@
                     <?php endif; ?>
                 </ul>
             <?php endif; ?>
-
-
         </div>
     </div>
 </body>

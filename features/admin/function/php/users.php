@@ -21,16 +21,77 @@ if (!$result) {
     if ($result->num_rows > 0) {
         $count = $offset + 1;
         while ($row = $result->fetch_assoc()) {
-            $id = $row['id'];
-            echo "<tr>";
-            echo "<td>$count</td>";
-            echo "<td>" . htmlspecialchars($row['first_name']) . "</td>";
-            echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+    $id = $row['id'];
+    echo "<tr>";
+    echo "<td>$count</td>";
+    echo "<td>" . htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['email']) . "</td>";
+    echo "<td>
+            <button class='btn btn-warning btn-sm' data-toggle='modal' data-target='#editModal$id'>Edit</button>
+            <button class='btn btn-danger btn-sm' data-toggle='modal' data-target='#deleteModal$id'>Delete</button>
+          </td>";
+    echo "</tr>";
 
-           
-            echo "</tr>";
-            $count++;
-        }
+    // Edit Modal
+    echo "<div class='modal fade' id='editModal$id' tabindex='-1' role='dialog' aria-labelledby='editModalLabel' aria-hidden='true'>
+            <div class='modal-dialog modal-dialog-centered modal-sm' role='document'>
+              <div class='modal-content'>
+                <div class='modal-header d-flex justify-content-between'>
+                  <h5 class='modal-title' id='editModalLabel'>Edit User</h5>
+                  <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                    <span aria-hidden='true'>&times;</span>
+                  </button>
+                </div>
+                <div class='modal-body'>
+                  <form action='../function/php/edit_user.php' method='POST'>
+                    <input type='hidden' name='id' value='" . $row['id'] . "'>
+                    <div class='form-group'>
+                      <label for='first_name'>First Name</label>
+                      <input type='text' class='form-control' id='first_name' name='first_name' value='" . htmlspecialchars($row['first_name']) . "' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='last_name'>Last Name</label>
+                      <input type='text' class='form-control' id='last_name' name='last_name' value='" . htmlspecialchars($row['last_name']) . "' required>
+                    </div>
+                    <div class='form-group'>
+                      <label for='email'>Email</label>
+                      <input type='email' class='form-control' id='email' name='email' value='" . htmlspecialchars($row['email']) . "' required>
+                    </div>
+                    <button type='submit' class='mt-2 btn btn-primary'>Save changes</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>";
+
+        // Delete Modal
+        echo "<div class='modal fade' id='deleteModal$id' tabindex='-1' role='dialog' aria-labelledby='deleteModalLabel' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered modal-sm' role='document'>
+                <div class='modal-content'>
+                    <div class='modal-header d-flex justify-content-between'>
+                    <h5 class='modal-title' id='deleteModalLabel'>Confirm Deletion</h5>
+                    <button type='button' class='close' data-dismiss='modal' aria-label='Close'>
+                        <span aria-hidden='true'>&times;</span>
+                    </button>
+                    </div>
+                    <div class='modal-body'>
+                    Are you sure you want to delete this user?
+                    </div>
+                    <div class='modal-footer'>
+                    <form action='../function/php/delete_user.php' method='POST'>
+                        <input type='hidden' name='id' value='" . $row['id'] . "'>
+                        <button type='button' class='btn btn-secondary' data-dismiss='modal'>Cancel</button>
+                        <button type='submit' class='btn btn-danger'>Delete</button>
+                    </form>
+                    </div>
+                </div>
+                </div>
+            </div>";
+        $count++;
+    }
+
+
+        
     } else {
         echo "<tr><td colspan='4'>No users found</td></tr>";
     }

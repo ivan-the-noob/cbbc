@@ -34,7 +34,7 @@
             $_SESSION['role'] = $role;
 
             if ($role === 'admin') {
-                header("Location: features/admin/web/admin.php");
+                header("Location: features/admin/web/users.php");
                 exit();
             } else {
                 header("Location: index.php");

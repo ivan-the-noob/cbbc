@@ -64,20 +64,20 @@ if (isset($_SESSION['email'])) {
                                 </li>
                                 
                                 <li class="nav-item dropdown">
-                                    <?php if ($profileImagePath): ?>
-                                        <!-- Profile Image Dropdown -->
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <img src="<?= $profileImagePath ?>" alt="Profile" class="img-fluid rounded-circle" style="border: 1px solid green; width: 40px; height: 40px;">
-                                    </a>
-                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <li><a class="dropdown-item" href="../../../profile.php">My Profile</a></li>
-                                            <li><a class="dropdown-item" href="../../../features/authentication/function/logout.php">Log Out</a></li>
-                                        </ul>
-                                    <?php else: ?>
-                                        <!-- If not logged in, show the Log In button -->
-                                        <button class="nav-link log-in-button" onclick="window.location.href='login.php'">Log In</button>
-                                    <?php endif; ?>
-                                </li>
+                                <?php if ($profileImagePath): ?>
+                                    <!-- Profile Image Dropdown -->
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="<?= $profileImagePath ?>" alt="Profile" class="img-fluid rounded-circle" style="border: 1px solid green; width: 40px; height: 40px;">
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="../../../profile.php">My Profile</a></li>
+                                        <li><a class="dropdown-item" href="../../../features/authentication/function/logout.php">Log Out</a></li>
+                                    </ul>
+                                <?php else: ?>
+                                    <!-- If not logged in, show the Log In button -->
+                                    <button class="nav-link log-in-button" onclick="window.location.href='login.php'">Log In</button>
+                                <?php endif; ?>
+                            </li>
                             </ul>
                             <div class="d-flex ml-auto">
                 </nav>
@@ -89,7 +89,7 @@ if (isset($_SESSION['email'])) {
         <div class="container">
             <?php
             require '../../../db.php';
-            $sql = "SELECT image_url FROM images WHERE role = 'soulwinning'";
+            $sql = "SELECT image_url FROM images WHERE role = 'missions'";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {

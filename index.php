@@ -1,3 +1,26 @@
+<?php
+
+require 'db.php';
+session_start();
+
+if (isset($_SESSION['email'])) {
+    $userEmail = $_SESSION['email'];
+    
+    $sql = "SELECT profile_image FROM users WHERE email = '$userEmail'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $profileImage = $row['profile_image'] ? $row['profile_image'] : 'dummy.png';
+        $profileImagePath = "assets/profile/" . $profileImage;
+    } else {
+        $profileImagePath = "assets/profile/dummy.jpg";
+    }
+} else {
+    $profileImagePath = '';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,72 +52,86 @@
                         </button>
                         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                             <ul class="navbar-nav d-flex justify-content-center align-items-center">
-                                <li class="nav-item">
-                                      <a class="navbar-brand d-none d-lg-block" href="#">
-                                            <img src="assets/logo/cbbc.png" alt="Logo" width="80" height="80">
-                                        </a>
-                                </li>
-                                <li class="nav-item links">
-                                    <a class="nav-link" href="#">Home</a>
-                                </li>
-                               
-                                <li class="nav-item links">
-                                    <a class="nav-link" href="#about-church">About Church</a>
-                                </li>
-                                <li class="nav-item links">
-                                    <a class="nav-link" href="#about-pastor">Our Pastor</a>
-                                </li>
-                                <li class="nav-item links">
-                                    <a class="nav-link" href="#gallery">Gallery</a>
-                                </li>
-                                <li class="nav-item links">
-                                    <a class="nav-link" href="#contact">Contacts</a>
-                                </li>
-                                <li class="nav-item links">
+                            <li class="nav-item">
+                                <a class="navbar-brand d-none d-lg-block" href="#">
+                                    <img src="assets/logo/cbbc.png" alt="Logo" width="80" height="80">
+                                </a>
+                            </li>
+                            <li class="nav-item links">
+                                <a class="nav-link" href="#">Home</a>
+                            </li>
+                            <li class="nav-item links">
+                                <a class="nav-link" href="#about-church">Church</a>
+                            </li>
+                            <li class="nav-item links">
+                                <a class="nav-link" href="#about-pastor">Pastor</a>
+                            </li>
+                            <li class="nav-item links">
+                                <a class="nav-link" href="#gallery">Gallery</a>
+                            </li>
+                            <li class="nav-item links">
+                                <a class="nav-link" href="#contact">Contacts</a>
+                            </li>
+
+                           <li class="nav-item dropdown">
+                                <?php if ($profileImagePath): ?>
+                                    <!-- Profile Image Dropdown -->
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="<?= $profileImagePath ?>" alt="Profile" class="img-fluid rounded-circle" style="border: 1px solid green; width: 40px; height: 40px;">
+                                </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <li><a class="dropdown-item" href="profile.php">My Profile</a></li>
+                                        <li><a class="dropdown-item" href="features/authentication/function/logout.php">Log Out</a></li>
+                                    </ul>
+                                <?php else: ?>
+                                    <!-- If not logged in, show the Log In button -->
                                     <button class="nav-link log-in-button" onclick="window.location.href='login.php'">Log In</button>
-                                </li>
-                            </ul>
+                                <?php endif; ?>
+                            </li>
+                          
+                        </ul>
+
                             <div class="d-flex ml-auto">
                 </nav>
         </div>
         <div id="carouselExampleCaptions" class="carousel slide">
-  <div class="carousel-indicators">
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-  </div>
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
-      <div class="carousel-caption">
-        <h5>First slide label</h5>
-        <p>Some representative placeholder content for the first slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
-      <div class="carousel-caption">
-        <h5>Second slide label</h5>
-        <p>Some representative placeholder content for the second slide.</p>
-      </div>
-    </div>
-    <div class="carousel-item">
-      <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
-      <div class="carousel-caption">
-        <h5>Third slide label</h5>
-        <p>Some representative placeholder content for the third slide.</p>
-      </div>
-    </div>
-  </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
-</div>
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
+                <div class="carousel-caption">
+                    <h5>First slide label</h5>
+                    <p>Some representative placeholder content for the first slide.</p>
+                </div>
+                </div>
+                <div class="carousel-item">
+                <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
+                <div class="carousel-caption">
+                    <h5>Second slide label</h5>
+                    <p>Some representative placeholder content for the second slide.</p>
+                </div>
+                </div>
+                <div class="carousel-item">
+                <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
+                <div class="carousel-caption">
+                    <h5>Third slide label</h5>
+                    <p>Some representative placeholder content for the third slide.</p>
+                </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+            </div>
     </section>
     <section class="about_church" id="about-church">
         <div class="container mt-4">
@@ -124,8 +161,7 @@
                 <p class="mb-0 p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quisquam, atque rerum a quia error obcaecati, laudantium qui, illum eius ipsum? Suscipit ipsam, quas fuga quo repellendus dicta illo obcaecati.</p>
             </div>
             <div class="col-md-6 mt-4">
-                <h5 class="mb-2 fw-bold">About Pastor</h5>
-                <img src="assets/pastor.JPG" alt="" class="w-100 rounded-3">
+                <img src="assets/pastor.jpg" alt="" class="w-100 rounded-3">
             </div>
         </div>
     </div>
@@ -141,17 +177,27 @@
                     </a>
                 </div>
                 <div class="col-md-5 mt-4">
-                    <a href="features/users/web/baptism.php">
+                    <a href="features/users/web/fellowship.php">
                         <img src="assets/fellowship/fellowship.jpg" class="w-100 rounded-1 h-100" alt="">
                     </a>
                 </div>
                 <div class="col-md-5 mt-4">
-                    <a href="features/users/web/events.php">
+                    <a href="features/users/web/ministries.php">
                         <img src="assets/fellowship/fellowship.jpg" class="w-100 rounded-1 h-100" alt="">
                     </a>
                 </div>
                   <div class="col-md-5 mt-4">
-                    <a href="features/users/web/events.php">
+                    <a href="features/users/web/missions.php">
+                        <img src="assets/fellowship/fellowship.jpg" class="w-100 rounded-1 h-100" alt="">
+                    </a>
+                </div>
+                <div class="col-md-5 mt-4">
+                    <a href="features/users/web/future_events.php">
+                        <img src="assets/fellowship/fellowship.jpg" class="w-100 rounded-1 h-100" alt="">
+                    </a>
+                </div>
+                <div class="col-md-5 mt-4">
+                    <a href="features/users/web/past_events.php">
                         <img src="assets/fellowship/fellowship.jpg" class="w-100 rounded-1 h-100" alt="">
                     </a>
                 </div>
@@ -175,29 +221,27 @@
         <div class="col-lg-6">
             <div class="contact-box">
             <h5 class="fw-bold mb-4">Send us a message</h5>
-            <form>
+            <form action="features/users/function/php/contact_form.php" method="POST">
                 <div class="mb-3">
-                <label for="name" class="form-label">Your name</label>
-                <input type="text" class="form-control" id="name" placeholder="Enter your full name">
+                    <label for="name" class="form-label">Your name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name">
                 </div>
                 <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control" id="email" placeholder="Enter your full name">
+                    <label for="facebook_name" class="form-label">Facebook Name</label>
+                    <input type="text" class="form-control" id="facebook_name" name="facebook_name" placeholder="Enter your facebook name">
                 </div>
                 <div class="mb-3">
-                <label for="message" class="form-label">Write your message</label>
-                <textarea class="form-control" id="message" rows="4" placeholder="Let us know how we can assist you..."></textarea>
+                    <label for="message" class="form-label">Write your message</label>
+                    <textarea class="form-control" id="message" rows="4" name="message" placeholder="Let us know how we can assist you..."></textarea>
                 </div>
                 <button type="submit" class="btn btn-green w-100">Send Message</button>
             </form>
+
             </div>
         </div>
         </div>
     </div>
     </section>
 
-
-        
-    
 </body>
 </html>

@@ -1,3 +1,25 @@
+<?php
+
+require '../../../db.php';
+session_start();
+
+if (isset($_SESSION['email'])) {
+    $userEmail = $_SESSION['email'];
+    
+    $sql = "SELECT profile_image FROM users WHERE email = '$userEmail'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $profileImage = $row['profile_image'] ? $row['profile_image'] : 'dummy.png';
+        $profileImagePath = "../../../assets/profile/" . $profileImage;
+    } else {
+        $profileImagePath = "../../../assets/profile/dummy.jpg";
+    }
+} else {
+    $profileImagePath = '';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,15 +52,27 @@
                                         </a>
                                 </li>
                                 <li class="nav-item links">
-                                    <a class="nav-link" href="../../../index.html">Home</a>
+                                    <a class="nav-link" href="../../../index.php">Home</a>
                                 </li>
                                
                                 <li class="nav-item links">
                                     <a class="nav-link" href="#">About Church</a>
                                 </li>
                                 
-                                <li class="nav-item links">
-                                    <button class="nav-link log-in-button" style="" onclick="window.location.href='login.html'">Log In</button>
+                                <li class="nav-item dropdown">
+                                    <?php if ($profileImagePath): ?>
+                                        <!-- Profile Image Dropdown -->
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <img src="<?= $profileImagePath ?>" alt="Profile" class="img-fluid rounded-circle" style="border: 1px solid green; width: 40px; height: 40px;">
+                                    </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <li><a class="dropdown-item" href="../../../profile.php">My Profile</a></li>
+                                            <li><a class="dropdown-item" href="../../../features/authentication/function/logout.php">Log Out</a></li>
+                                        </ul>
+                                    <?php else: ?>
+                                        <!-- If not logged in, show the Log In button -->
+                                        <button class="nav-link log-in-button" onclick="window.location.href='login.php'">Log In</button>
+                                    <?php endif; ?>
                                 </li>
                             </ul>
                             <div class="d-flex ml-auto">

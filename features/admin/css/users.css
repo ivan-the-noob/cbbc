@@ -47,10 +47,10 @@ body {
     align-items: center !important;
     gap: 10px !important;
     font-size: 14px !important;
-    background-color: #7A3015 !important;
+    background-color: #06850C !important;
 }
 .navbar a:hover {
-    background-color: #7A3015;
+    background-color: #06850C;
     color: #FFFFFF;
     border-radius: 10px;
 }
@@ -138,7 +138,7 @@ body {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
-    border: 2px solid #7A3015;
+    border: 2px solid #06850C;
 }
 
 .profile-admin button {
@@ -149,7 +149,7 @@ body {
     margin: auto;
 }
 .profile-admin i {
-    color: #7A3015;
+    color: #06850C;
 }
 .profile-admin span {
     font-size: 16px;
@@ -166,7 +166,7 @@ body {
 }
 
 .admin-profile{
-    border:  3px solid #7A3015;
+    border:  3px solid #06850C;
 }
 /*Navbar Section End*/
 
@@ -178,7 +178,7 @@ body {
 }
 .app-req h3{
     padding: 30px 0 0 20px !important;
-    color: #7A3015;
+    color: #06850C;
 }
 
 
@@ -190,7 +190,7 @@ body {
     
 }
 .table-remove-borders th{
-    background-color: #7A3015;
+    background-color: #06850C;
     color: #fff;
 }
 
@@ -253,7 +253,7 @@ tr:hover{
     padding: 5px;
 }
 .btn-new{
-    background-color: #7A3015 !important;
+    background-color: #06850C !important;
     border: none !important;
     color: #fff !important;
     padding:  10px 20px !important;
@@ -267,7 +267,7 @@ tr:hover{
 }
 
 .book-save{
-    background-color: #7A3015 !important;
+    background-color: #06850C !important;
     border: none !important;
     color: #fff !important;
     padding:  10px 20px !important;
@@ -294,17 +294,17 @@ tr:hover{
 }
 
 .modal-body label{
-    color: #7A3015;
+    color: #06850C;
     font-size: 16px;
     font-weight: 500;
 }
 .modal-body h6{
-    color:#7A3015;
+    color:#06850C;
     font-size: 22px;
 }
 
 .modal-body p{
-    color: #7A3015;
+    color: #06850C;
 }
 
 #dayModal .container{
@@ -329,7 +329,7 @@ tr:hover{
 
 .med .dropdown-menu{
     padding: 0;
-    background-color: #7A3015 !important;
+    background-color: #06850C !important;
     color: #fff !important;
 }
 .med .dropdown-menu li{
@@ -345,7 +345,7 @@ tr:hover{
 
 .m:hover{
     background-color: #fff !important;
-    color: #7A3015 !important;
+    color: #06850C !important;
     padding: 0 !important;
 
 }
@@ -358,18 +358,18 @@ tr:hover{
 
 
 ul a:hover{
-    background-color: #7A3015 !important;
-    color: #7A3015 !important;
+    background-color: #06850C !important;
+    color: #06850C !important;
     border-radius: 5px;
     color: #fff !important;
 }
  .dropdown-toggle{
-    background-color: #7A3015;
+    background-color: #06850C;
     border: none;
 }
 
 .walkin{
-    background-color: #7A3015;
+    background-color: #06850C;
     padding: 10px;
     color: #fff;
     border: none;
@@ -388,7 +388,7 @@ ul a:hover{
 
 .pagination .page-item .page-link {
     border-radius: 50%;
-    background-color: #7A3015;
+    background-color: #06850C;
     color: white;
     width: 40px;
     height: 40px;
@@ -448,5 +448,13 @@ ul a:hover{
     white-space: wrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+
+/* -------------------------------------------------------------------------------*/
+
+.add_button{
+    padding-right: 50px;
+    margin-bottom: 5px;
 }
 
