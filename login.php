@@ -12,8 +12,47 @@
     <link rel="stylesheet" href="style_login.css">
 </head>
 
+<?php
+    session_start();
+    include 'db.php';
+
+   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+
+    $stmt = $conn->prepare("SELECT password, role FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($hashed_password, $role);
+        $stmt->fetch();
+
+        if (password_verify($password, $hashed_password)) {
+            $_SESSION['email'] = $email;
+            $_SESSION['role'] = $role;
+
+            if ($role === 'admin') {
+                header("Location: features/admin/web/admin.php");
+                exit();
+            } else {
+                header("Location: index.php");
+                exit();
+            }
+        } else {
+            $error = "Incorrect Credentials";
+        }
+    } else {
+        $error = "Incorrect Credentials";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>
 <body>
-    <div class="container">
+    <div class="container m-1">
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
                 <div class="row login-container">
@@ -21,8 +60,12 @@
                         <img src="bg.png" alt="Logo">
                     </div>
                     <div class="col-md-7 login-right">
+                        <?php if (!empty($error)): ?>
+                                <div class="alert alert-danger text-center"><?= $error ?></div>
+                            <?php endif; ?>
                         <h5 class="mb-3">Log in</h5>
-                        <form method="POST" action="login.php">
+                        <form method="POST" action="">
+                             
                             <div class="mb-3">
                                 <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
                             </div>

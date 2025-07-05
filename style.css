@@ -10,65 +10,8 @@
     
 }
 
-:root{
-    --main-bg-color: #057624;
-}
-
-.navbar-toggler{
-    margin-left: auto;
-}
-
-.navbar-toggler{
-    border: none;
-}
-
-.navbar-toggler:focus {
-    border: none;
-}
-
-.navbar-container{
-  width: 100%; 
-  height: auto;
-
-}
-
-.navbar{
-    padding: 0;
-    margin: 0;
-}
-
-.navbar ul{
-    display: flex;
-    gap: 20px;
-}
-
-.navbar a{
-  color: #000;
-
-}
-
-.navbar a:hover{
-  color: #06850C;
-}
-
-.button{
-    background-color: var(--main-bg-color);
-    padding: 12px 50px 12px 50px;
-    border-radius: 16px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    color: #fff !important;
-    font-size: 14px;
-    font-weight: 500;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-}
-.button:hover{
-    background-color: #06850C;
-}
-
-hr{
-    margin: 0;
+html {
+  scroll-behavior: smooth;
 }
 
 
@@ -78,14 +21,9 @@ hr{
     }
 }
 
-
-
-
-
-
 .front_page img{
-    max-height: 90vh;
-    border-radius: 10px;
+    max-height: 100vh;
+    border-radius: 5px;
 }
 
 @media (min-width: 375px) and (max-width: 492.98px) {
@@ -94,45 +32,13 @@ hr{
     }
 }
 
-
-
-
-
-/*Live stream section*/
-.live-stream img{
-    width: 100%;
-    border-radius: 20px;
-    height: 80vh;
+.pgraph {
+    line-height: 1.8;
+    font-weight: 400;
+    text-align: justify;
 }
 
-/*Live stream section End*/
-.today-verse{
-    font-family: "Lateef", serif;
-    font-weight: 500;
-    font-size: 24px;
-    text-align: center;
-}
 
-.box-verse{
-    width: 100%;
-    height: 245px;
-    border-radius : 14px;
-    background-color: var(--main-bg-color);
-
-}
-
-.box-verse img{
-    width: 100%;
-    opacity: 100%;
-    width: 50px;
-}
-.arrow{
-    position: relative;
-    top: 160px;
-    width: 30px !important; 
-    height: 32px;
-    padding: 5px;
-}
 
 /* navbar end */
 
@@ -167,13 +73,42 @@ hr{
     padding-left: 10%;
 }
 
+.carousel-caption {
+    position: absolute;
+    bottom: 25%;
+    left: 2%;
+    max-width: 90%;
+    font-size: 0.9rem;
+    text-align: left;
+    color: #fff;
+    font-family: 'Lora', serif;
+    transform: translateY(0); 
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+}
+
+@media (max-width: 767px) {
+    .carousel-caption {
+       display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .carousel-caption {
+        bottom: 10%;
+        left: 10%;
+        max-width: 35%;
+        transform: translateY(-10%);
+    }
+}
+
+
+
 /*About Church*/
 
-.about_church{
-    height: 100vh;
-}
-.about_church img{
 
+.about_church{
+    padding-bottom: 30px;
 }
 
 .more{
@@ -197,7 +132,8 @@ hr{
     color: #fff;
     position: relative;
     overflow: hidden;
-    height: 100vh;
+    padding-bottom: 30px;
+
 }
 
 
@@ -222,9 +158,6 @@ hr{
     z-index: 1;
 }
 
-.church_gallery{
-    height: 100vh;
-}
 
 .church_gallery img {
     transition: filter 0.3s ease;
@@ -287,13 +220,9 @@ hr{
 
 .contact{
     background: url('assets/contact.jpg') no-repeat center center/cover;
-    height: 100vh;
+
     color: white;
     position: relative;
-}
-
-.contact .row{
-    height: 80vh;
 }
 
 

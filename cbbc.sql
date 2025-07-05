@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2025 at 01:59 PM
+-- Generation Time: Jul 05, 2025 at 10:22 AM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,16 +33,18 @@ CREATE TABLE `users` (
   `last_name` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `role` enum('admin','member') NOT NULL DEFAULT 'member'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `created_at`) VALUES
-(1, 'John Ray', 'Gaspar', 'ejivan@gmail.com', '$2y$10$gxSMbH8UjERo5Pw0D1su2.zZP9oXGO8nCYZSakWsXoE.hU7cTEe5y', '2025-07-03 11:58:36'),
-(2, 'mark', 'tablate', 'marktablate@gmail.com', '$2y$10$rsSfoZa2BHmjB7wEiqpIb.EFPyLLr9mi1Y/hN05A2glGX4SSV6KLe', '2025-07-03 11:59:09');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `created_at`, `role`) VALUES
+(1, 'John Ray', 'Gaspar', 'ejivan@gmail.com', '$2y$10$gxSMbH8UjERo5Pw0D1su2.zZP9oXGO8nCYZSakWsXoE.hU7cTEe5y', '2025-07-03 11:58:36', 'member'),
+(2, 'mark', 'tablate', 'marktablate@gmail.com', '$2y$10$rsSfoZa2BHmjB7wEiqpIb.EFPyLLr9mi1Y/hN05A2glGX4SSV6KLe', '2025-07-03 11:59:09', 'member'),
+(3, 'admin', 'admin', 'admin@gmail.com', '$2y$10$xqZP8OwZs4Qg4rEiUsUnB.QAUG5eC4CufRXbsh0WKWucvXnUrSzfm', '2025-07-05 07:53:28', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +65,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

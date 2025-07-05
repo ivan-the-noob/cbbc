@@ -7,10 +7,32 @@
     --main-bg-color: #057624;
 }
 
-body{
-    background-color: var(--main-bg-color);
+.church{
+    padding-top: 100px;
 }
 
-p{
+
+.pgraph {
+    line-height: 1.5;
+    font-weight: 400;
+    text-align: justify;
+}
+
+#map{
+    height: 70vh;
+    width: 100%;
+    border: 3px solid green;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 40px;
+}
+
+ .custom-label {
+    background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    white-space: nowrap;
 }
