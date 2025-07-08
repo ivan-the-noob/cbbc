@@ -218,4 +218,175 @@ html {
 }
 
 
+/* Chat Bot Section*/
+
+/* Chat Bot Section */
+
+#chat-bot-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+    background-color: #73BD1E;
+    border: 2px solid #fff;
+    border-radius: 100%;
+    cursor: pointer;
+    text-align: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.8);
+}
+#chat-bot-button i{
+    margin: 0;
+    padding: 16px 12px;
+    font-size: 24px;
+    color: #fff;
+}
+
+
+#chat-interface {
+    position: fixed;
+    bottom: 5px; 
+    right: 50px;
+    width: 30%;
+    height: 60%;
+    background-color: #fff;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    #chat-interface {
+        width: 80%;
+        bottom: 5px;
+        right: 5px;
+
+        
+    }
+}
+
+#chat-interface.hidden {
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none; 
+}
+
+#chat-interface:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#chat-header {
+    background-color: #084c17;
+    color: #fff;
+    padding: 10px;
+    padding-bottom: 0;
+    justify-content: space-between;
+    display: flex;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.chat-header p{
+  display: grid;
+  margin: auto;
+}
+
+
+#chat-header button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+
+
+#chat-footer {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-top: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+}
+
+#chat-bot-button.hidden {
+    display: none;
+}
+
+.admin-chat{
+    display: flex;
+    font-weight: bold;
+    gap: 5px;
+
+}
+
+#chat-body{
+  padding: 10px;
+  padding-bottom: 20px;
+  overflow-y:  auto;
+  height: auto;
+}
+
+
+
+
+.admin p{
+    align-items: center;
+    display: grid;
+    margin: auto;
+    color: #084c17;
+    margin-left: 5px;
+
+}
+
+.admin .text{
+    background-color: #084c17;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    border-radius: 10px;
+    margin: auto;
+    font-size: 13px;
+    padding-left: 10px !important;
+    width: 80%;
+}
+
+
+.admin img{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.button-bot{
+  padding: 0 10px;
+}
+.button-bot button{
+  background-color: #084c17;
+  border: transparent;
+  color: #fff;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 10px;
+    
+}
+
+#chat-bot-button.hidden {
+  display: none;
+}
+
+/*Chat Bot Section End*/
+
   

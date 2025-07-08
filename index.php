@@ -243,5 +243,35 @@ if (isset($_SESSION['email'])) {
     </div>
     </section>
 
+    <button id="chat-bot-button" onclick="toggleChat()">
+        <img src="bg.png" alt="" style="width: 50px; height: 50px; border-radius: 50%;">
+    </button>
+
+    <div id="chat-interface" class="hidden">
+    <div id="chat-header">
+        <p>Amazing Day! How may I help you?</p>
+        <button onclick="toggleChat()">X</button>
+    </div>
+    <div id="chat-body">
+    <div class="button-bot">
+            <button onclick="sendResponse('Who is CBBC Pastor?')">Who is CBBC Pastor?</button>
+
+        </div>
+        
+        <div class="admin mt-3">
+            <div class="admin-chat">
+                <img src="bg.png" alt="Admin">
+                <p>Admin</p>
+            </div>
+            <p class="text" id="typing-text">Hello, I am Chat Bot. Please Ask me a question just by pressing the question buttons.</p>
+        </div>
+      
+    </div>
+    <div class="line"></div>
+</div>
+
+
 </body>
+
+<script src="features/users/function/script/chat-bot.js"></script>
 </html>
