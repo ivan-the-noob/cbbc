@@ -85,7 +85,7 @@ if (isset($_SESSION['email'])) {
                     <img src="" alt="">
                 </div>
                 <div class="col-md-6">
-                    <p class="mb-0 p-3 pgraph" style="text-indent: 2em">Central Bible Baptist Church began in 1998 with a vision placed in the heart of Pastor Herbert Collano—a faithful servant burdened to start a mission. After receiving the blessing of his mentor, Pastor Benny Abante Sr., Pastor Herbert first set out to Bicol but was later led back to Valenzuela. Through a series of divine appointments, he was called to minister in Trece Martires, Cavite, where he started with only two Bible study members and no financial support—just strong faith and a heart to serve.</p>
+                    <p class="mb-0 p-3 pgraph" style="text-indent: 2em">Central Bible Baptist Church began in 1998 with a vision placed in the heart of Pastor Herbert Collano Jr.—a faithful servant burdened to start a mission. After receiving the blessing of his mentor, Pastor Benny Abante Sr., Pastor Herbert first sent out to Bicol but was later led back to Valenzuela. Through a series of divine appointments, he was called to minister in Trece Martires, Cavite, where he started with only two Bible study members and no financial support—just strong faith and a heart to serve.</p>
 
                     <p class="mb-0 p-3 pgraph" style="text-indent: 2em">Together with his wife, Ma’am Cyrell Collano, they faced trials including financial struggles, health issues, and personal loss, but God’s grace sustained them. The church grew steadily, moving from small gathering places in San Agustin and Maligaya, until it was officially organized in 2003 as Central Bible Baptist Church.</p>
 

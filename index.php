@@ -147,7 +147,7 @@ if (isset($_SESSION['email'])) {
                 <h3 class=" h3 fw-bold mb-3 text-center mt-4">About Central Bible Baptist Church</h3>
                 <p class="mb-0 p-4 pgraph">
                     Central Bible Baptist Church began in 1998 with a vision placed in the heart of <b>Pastor
-                    Herbert Collano</b>, a faithful servant burdened to start a mission. After receiving the blessing of his mentor, <b>Pastor Benny Abante Sr.</b>, Pastor Herbert first set out to Bicol but was later led back to Valenzuela. Through a series of divine appointments, he was called to minister in Trece Martires, Cavite, where he started with only two Bible study members and no financial support—just strong faith and a heart to serve.
+                    Herbert R. Collano Jr.</b>, a faithful servant burdened to start a mission. After receiving the blessing of his mentor, <b>Pastor Benny Abante Sr.</b>, Pastor Herbert first sent out to Bicol but was later led back to Valenzuela. Through a series of divine appointments, he was called to minister in Trece Martires, Cavite, where he started with only two Bible study members and no financial support—just strong faith and a heart to serve.
                 </p>
                 <div class="d-flex justify-content-center justify-content-md-start">
                     <a href="features/users/web/about_church.php" class="more text-decoration-none">Read More</a>
