@@ -166,7 +166,7 @@ if (isset($_SESSION['email'])) {
                 <p class="mb-0 p-4" >Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum quisquam, atque rerum a quia error obcaecati, laudantium qui, illum eius ipsum? Suscipit ipsam, quas fuga quo repellendus dicta illo obcaecati.</p>
             </div>
             <div class="col-md-6 mt-4" data-aos="zoom-in" data-aos-duration="500">
-                <img src="assets/pastor.jpg" alt="" class="w-100 rounded-3">
+                <img src="assets/pastor.JPG" alt="" class="w-100 rounded-3">
             </div>
         </div>
     </div>
