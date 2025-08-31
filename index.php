@@ -107,22 +107,22 @@ if (isset($_SESSION['email'])) {
                 <div class="carousel-item active">
                 <img src="assets/ff.png" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
                 <div class="carousel-caption p-4">
-                    <h5>2025 First Fruit Commitment</h5>
-                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house.</p>
+                    <h5 class="font-bold">2025 First Fruit Commitment</h5>
+                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house.<br> Ezekiel 44:30 KJV</p>
                 </div>
                 </div>
                 <div class="carousel-item">
                 <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
                 <div class="carousel-caption p-4">
-                    <h5>2025 First Fruit Commitment</h5>
-                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house.</p>
+                     <h5 class="font-bold">2025 First Fruit Commitment</h5>
+                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house. <br> Ezekiel 44:30 KJV</p>
                 </div>
                 </div>
                 <div class="carousel-item">
                 <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
                 <div class="carousel-caption p-4">
-                    <h5>2025 First Fruit Commitment</h5>
-                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house.</p>
+                    <h5 class="font-bold">2025 First Fruit Commitment</h5>
+                    <p>And the first of all the firstfruits of all things, and every oblation of all, of every sort of your oblations, shall be the priest's: ye shall also give unto the priest the first of your dough, that he may cause the blessing to rest in thine house.<br> Ezekiel 44:30 KJV</p>
                 </div>
                 </div>
             </div>
