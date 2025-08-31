@@ -105,7 +105,7 @@ if (isset($_SESSION['email'])) {
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                <img src="assets/fellowship/fellowship.jpg" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
+                <img src="assets/ff.png" class="d-block w-100" alt="assets/fellowship/fellowship.jpg">
                 <div class="carousel-caption">
                     <h5>First slide label</h5>
                     <p>Some representative placeholder content for the first slide.</p>
