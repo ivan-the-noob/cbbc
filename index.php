@@ -89,6 +89,7 @@ if (isset($_SESSION['email'])) {
                                 <?php else: ?>
                                     <!-- If not logged in, show the Log In button -->
                                     <button class="nav-link log-in-button" onclick="window.location.href='login.php'">Log In</button>
+                                    <a href="lyrics/index.php" class="btn btn-warning">Lyrics</a>
                                 <?php endif; ?>
                             </li>
                           
