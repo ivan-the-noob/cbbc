@@ -1,5 +1,6 @@
 {
     "require": {
-        "phpoffice/phppresentation": "^1.2"
+        "phpoffice/phppresentation": "^1.2",
+        "norkunas/youtube-dl-php": "^2.12"
     }
 }

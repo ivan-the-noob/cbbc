@@ -62,6 +62,7 @@
         }
         
         input[type="text"],
+        input[type="url"],
         textarea {
             width: 100%;
             padding: 12px;
@@ -701,9 +702,10 @@
                                         <label for="title">Presentation Title:</label>
                                         <input type="text" id="title" name="title" placeholder="Enter presentation title" required>
                                     </div>
+                                    <div> <label for="singer">Singer:</label> <input type="text" id="singer" name="singer" placeholder="Enter singer name"> </div>
                                     <div>
-                                        <label for="singer">Singer:</label>
-                                        <input type="text" id="singer" name="singer" placeholder="Enter singer name">
+                                        <label for="youtube">YouTube URL:</label>
+                                        <input type="url" id="youtube" name="youtube" placeholder="Enter YouTube video link">
                                     </div>
                                     
                                     <div>
@@ -938,10 +940,21 @@ function loadAllPPTs(searchQuery = '') {
                     if (!ppt.file_path || ppt.file_path === '') {
                         // If no file_path exists, we need to generate the file first
                         html += `
-                            <div class="ppt-card" onclick="generateAndDownloadPPT(${ppt.id}, '${ppt.title.replace(/'/g, "\\'")}')" style="cursor: pointer;">
+                           <div class="ppt-card" onclick="generateAndDownloadPPT(${ppt.id}, '${ppt.title.replace(/'/g, "\\'")}')" style="cursor: pointer;">
                                 <div class="ppt-card-header">
                                     <h4 class="ppt-card-title">${ppt.title || 'Untitled Presentation'}</h4>
                                     <small style="font-size: 12px; opacity: 0.8;">Click to generate file</small>
+                                </div>
+                                <div class="ppt-card-body">
+                                    <div class="ppt-youtube-section">
+                                        <strong>YouTube:</strong>
+                                        ${ppt.youtube ? 
+                                            `<a href="${ppt.youtube}" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: none;">
+                                                ${ppt.youtube.length > 40 ? ppt.youtube.substring(0, 40) + '...' : ppt.youtube}dasdas
+                                            </a>` : 
+                                            '<span style="color: #666; font-style: italic;">No YouTube link</span>'
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         `;
@@ -956,10 +969,21 @@ function loadAllPPTs(searchQuery = '') {
                         
                         html += `
                             <div class="ppt-card" onclick="downloadPPT('${ppt.file_path}', '${cleanFileName}')" style="cursor: pointer;">
-                                <div class="ppt-card-header">
+                                <div class="ppt-card-header" style="height: 10vh; padding: 5px;">
                                     <h4 class="ppt-card-title">${ppt.title || 'Untitled Presentation'}.pptx</h4>
                                  
                                 </div>
+                                 <div class="ppt-card-body">
+        <div class="ppt-youtube-section">
+            <strong>YouTube:</strong>
+            ${ppt.youtube ? 
+                `<a href="${ppt.youtube}" target="_blank" onclick="event.stopPropagation();" style="color: #0066cc; text-decoration: none;">
+                    ${ppt.youtube.length > 40 ? ppt.youtube.substring(0, 40) + '...' : ppt.youtube}
+                </a>` : 
+                '<span style="color: #666; font-style: italic;">No YouTube link</span>'
+            }
+        </div>
+    </div>
                             </div>
                         `;
                     }

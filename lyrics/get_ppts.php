@@ -76,6 +76,7 @@ try {
     while ($row = mysqli_fetch_assoc($result)) {
     // Sanitize output data
     $row['title'] = htmlspecialchars($row['title'] ?? '', ENT_QUOTES, 'UTF-8');
+    $row['youtube'] = htmlspecialchars($row['youtube'] ?? '', ENT_QUOTES, 'UTF-8');
     $row['singer'] = htmlspecialchars($row['singer'] ?? '', ENT_QUOTES, 'UTF-8');
     $row['ppt_filename'] = htmlspecialchars($row['ppt_filename'] ?? '', ENT_QUOTES, 'UTF-8');
     $row['status'] = htmlspecialchars($row['status'] ?? '', ENT_QUOTES, 'UTF-8');

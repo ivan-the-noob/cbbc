@@ -22,6 +22,7 @@ if (!isset($_POST['lyrics'], $_POST['title'])) {
 $title = trim($_POST['title']);
 $singer = trim($_POST['singer'] ?? '');
 $lyrics = trim($_POST['lyrics']);
+$youtube = trim($_POST['youtube'] ?? '');
 $lines = array_filter(array_map('trim', explode("\n", $lyrics)));
 
 try {
@@ -168,8 +169,11 @@ try {
     $writer->save($savePath);
     
     // Save to database
-    $stmt = $conn->prepare("INSERT INTO ppt_submissions (title, singer, ppt_filename, saved_path, status) VALUES (?, ?, ?, ?, 'generated')");
-    $stmt->bind_param("ssss", $title, $singer, $filename, $savePath);
+    $stmt = $conn->prepare("
+    INSERT INTO ppt_submissions (title, singer, youtube, ppt_filename, saved_path, status) 
+    VALUES (?, ?, ?, ?, ?, 'generated')
+    ");
+    $stmt->bind_param("sssss", $title, $singer, $youtube, $filename, $savePath);
     
     if ($stmt->execute()) {
         $submissionId = $conn->insert_id;
