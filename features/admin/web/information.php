@@ -121,12 +121,33 @@ $total_rows = $count_result->fetch_assoc()['total'];
             vertical-align: middle;
         }
         
+        .address-cell {
+            max-width: 200px;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        
         .contact-no {
             font-family: monospace;
         }
         
         .date-cell {
             white-space: nowrap;
+        }
+        
+        /* Make sure the address doesn't overflow */
+        .table td:first-child {
+            max-width: 250px;
+        }
+        
+        /* Ensure proper text wrapping for address */
+        .address-text {
+            word-wrap: break-word;
+            white-space: normal;
+            line-height: 1.2;
+            font-size: 0.85rem;
+            display: block;
+            margin-top: 3px;
         }
     </style>
 </head>
@@ -277,10 +298,10 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         <?php if ($result->num_rows > 0): ?>
                             <?php while($row = $result->fetch_assoc()): ?>
                                 <tr data-id="<?= $row['id'] ?>">
-                                    <td>
+                                    <td class="address-cell">
                                         <strong><?= htmlspecialchars($row['name']) ?></strong>
                                         <?php if(!empty($row['address'])): ?>
-                                            <br><small class="text-muted"><?= htmlspecialchars(substr($row['address'], 0, 30)) . (strlen($row['address']) > 30 ? '...' : '') ?></small>
+                                            <br><small class="text-muted address-text"><?= htmlspecialchars($row['address']) ?></small>
                                         <?php endif; ?>
                                     </td>
                                     <td>
@@ -398,13 +419,9 @@ $total_rows = $count_result->fetch_assoc()['total'];
                                 <label>Date Baptized</label>
                                 <input type="date" class="form-control" name="date_baptized">
                             </div>
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-12 mb-3">
                                 <label>Address</label>
-                                <textarea class="form-control" name="address" rows="2"></textarea>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label>Occupation</label>
-                                <input type="text" class="form-control" name="occupation">
+                                <textarea class="form-control" name="address" rows="3"></textarea>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Status</label>
