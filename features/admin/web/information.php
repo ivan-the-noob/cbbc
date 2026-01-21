@@ -6,10 +6,8 @@ include '../../../db.php';
 // Show all records (no pagination)
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-// Filter functionality
-// Filter functionality
+// Filter functionality - FIXED: Each filter should work independently
 $filters = [];
-$filter_sql = "";
 
 if (isset($_GET['age_min']) && $_GET['age_min'] !== '') {
     $filters[] = "age >= " . (int)$_GET['age_min'];
@@ -20,28 +18,35 @@ if (isset($_GET['age_max']) && $_GET['age_max'] !== '') {
 if (isset($_GET['active_inactive']) && $_GET['active_inactive'] !== '') {
     $filters[] = "active_inactive = '" . $conn->real_escape_string($_GET['active_inactive']) . "'";
 }
-if (isset($_GET['type']) && $_GET['type'] !== '' && $_GET['type'] !== 'Select') { // ADDED: && $_GET['type'] !== 'Select'
+if (isset($_GET['type']) && $_GET['type'] !== '' && $_GET['type'] !== 'Select') {
     $filters[] = "type = '" . $conn->real_escape_string($_GET['type']) . "'";
 }
-if (isset($_GET['status']) && $_GET['status'] !== '') { // ADDED: Status filter
+if (isset($_GET['status']) && $_GET['status'] !== '') {
     $filters[] = "status = '" . $conn->real_escape_string($_GET['status']) . "'";
 }
 
-// Build query
+// Build WHERE clause
+$where_conditions = [];
+if (!empty($search)) {
+    $search_term = $conn->real_escape_string($search);
+    $where_conditions[] = "(name LIKE '%$search_term%' OR address LIKE '%$search_term%')";
+}
+
+// Add filters to WHERE conditions
+if (!empty($filters)) {
+    foreach ($filters as $filter) {
+        $where_conditions[] = $filter;
+    }
+}
+
+// Build final query
 $query = "SELECT * FROM information";
 $count_query = "SELECT COUNT(*) as total FROM information";
 
-if (!empty($search)) {
-    $search_term = $conn->real_escape_string($search);
-    $where = " WHERE name LIKE '%$search_term%' OR address LIKE '%$search_term%'";
-    if (!empty($filter_sql)) {
-        $where .= " AND " . substr($filter_sql, 7);
-    }
-    $query .= $where;
-    $count_query .= $where;
-} else if (!empty($filter_sql)) {
-    $query .= $filter_sql;
-    $count_query .= $filter_sql;
+if (!empty($where_conditions)) {
+    $where_sql = " WHERE " . implode(" AND ", $where_conditions);
+    $query .= $where_sql;
+    $count_query .= $where_sql;
 }
 
 // No pagination - show all
