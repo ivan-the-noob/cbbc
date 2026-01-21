@@ -355,12 +355,10 @@ $total_rows = $count_result->fetch_assoc()['total'];
                                         </span>
                                     </td>
                                     <td>
-                                        <?php
-                                        $active_class = $row['active_inactive'] == 'Active' ? 'active-active' : 'active-inactive';
-                                        ?>
-                                        <span class="active-badge <?= $active_class ?>">
-                                            <?= htmlspecialchars($row['active_inactive']) ?>
-                                        </span>
+                                        <select class="active-inactive-select" data-field="active_inactive" data-id="<?= $row['id'] ?>">
+                                            <option value="Active" <?= $row['active_inactive'] == 'Active' ? 'selected' : '' ?>>Active</option>
+                                            <option value="Inactive" <?= $row['active_inactive'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+                                        </select>
                                     </td>
                                    <td>
                                         <select class="type-select" data-id="<?= $row['id'] ?>">
