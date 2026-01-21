@@ -1,15 +1,13 @@
 <?php
 session_start();
-
+if (!isset($_SESSION['email']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+    header("Location: ../../../users/web/api/login.php");
+    exit();
+}
 
 include '../../../db.php';
 
-// Pagination
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$offset = ($page - 1) * $records_per_page;
-
-// Search functionality
+// Remove pagination to show all records
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Filter functionality
@@ -50,14 +48,13 @@ if (!empty($search)) {
     $count_query .= $filter_sql;
 }
 
-// Add pagination
-$query .= " ORDER BY name LIMIT $offset, $records_per_page";
+// No pagination - show all
+$query .= " ORDER BY name";
 
 // Execute queries
 $result = $conn->query($query);
 $count_result = $conn->query($count_query);
 $total_rows = $count_result->fetch_assoc()['total'];
-$total_pages = ceil($total_rows / $records_per_page);
 ?>
 
 <!DOCTYPE html>
@@ -70,9 +67,55 @@ $total_pages = ceil($total_rows / $records_per_page);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/users.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    <style>
+        .status-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            font-size: 0.875rem;
+            width: 100px;
+        }
+        
+        .status-select:focus {
+            outline: none;
+            border-color: #86b7fe;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+        }
+        
+        .badge {
+            cursor: pointer;
+        }
+        
+        .table-wrapper {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .table th {
+            position: sticky;
+            top: 0;
+            background-color: #f8f9fa;
+            z-index: 1;
+        }
+        
+        .active-inactive-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            font-size: 0.875rem;
+            width: 100px;
+        }
+        
+        .type-select {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+            font-size: 0.875rem;
+            width: 120px;
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation Links -->
@@ -128,7 +171,7 @@ $total_pages = ceil($total_rows / $records_per_page);
                 <form method="GET" action="" class="mb-4">
                     <div class="row g-3">
                         <!-- Search -->
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="search-bars">
                                 <i class="fa fa-magnifying-glass"></i>
                                 <input type="text" class="form-control" name="search" placeholder="Search by name or address..." 
@@ -146,7 +189,7 @@ $total_pages = ceil($total_rows / $records_per_page);
                                    value="<?= isset($_GET['age_max']) ? htmlspecialchars($_GET['age_max']) : '' ?>">
                         </div>
                         
-                        <!-- Status Filter -->
+                        <!-- Active/Inactive Filter -->
                         <div class="col-md-2">
                             <select class="form-control" name="active_inactive">
                                 <option value="">All Status</option>
@@ -168,16 +211,23 @@ $total_pages = ceil($total_rows / $records_per_page);
                         </div>
                         
                         <!-- Action Buttons -->
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
                         </div>
-                        <div class="col-md-2">
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-3">
                             <a href="information.php" class="btn btn-secondary w-100">Clear Filters</a>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#addModal">
                                 <i class="fas fa-plus"></i> Add New
                             </button>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="alert alert-info p-2 mb-0">
+                                <small><i class="fas fa-info-circle"></i> Showing all <?= $total_rows ?> records. Use filters to narrow results.</small>
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -194,41 +244,45 @@ $total_pages = ceil($total_rows / $records_per_page);
                             <th>Address</th>
                             <th>Contact No</th>
                             <th>Type</th>
+                            <th>Active/Inactive</th>
                             <th>Status</th>
                             <th>Date Baptized</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if ($result->num_rows > 0): ?>
-                            <?php $counter = $offset + 1; ?>
+                            <?php $counter = 1; ?>
                             <?php while($row = $result->fetch_assoc()): ?>
-                                <tr>
+                                <tr data-id="<?= $row['id'] ?>">
                                     <td><?= $counter ?></td>
                                     <td><?= htmlspecialchars($row['name']) ?></td>
                                     <td><?= $row['age'] ?: 'N/A' ?></td>
                                     <td><?= htmlspecialchars(substr($row['address'], 0, 50)) . (strlen($row['address']) > 50 ? '...' : '') ?></td>
                                     <td><?= htmlspecialchars($row['contact_no']) ?: 'N/A' ?></td>
                                     <td>
-                                        <span class="badge bg-primary"><?= htmlspecialchars($row['type']) ?></span>
+                                        <select class="type-select" data-field="type" data-id="<?= $row['id'] ?>">
+                                            <option value="Women" <?= $row['type'] == 'Women' ? 'selected' : '' ?>>Women</option>
+                                            <option value="Men" <?= $row['type'] == 'Men' ? 'selected' : '' ?>>Men</option>
+                                            <option value="Young People" <?= $row['type'] == 'Young People' ? 'selected' : '' ?>>Young People</option>
+                                            <option value="Young Pro" <?= $row['type'] == 'Young Pro' ? 'selected' : '' ?>>Young Pro</option>
+                                            <option value="Children" <?= $row['type'] == 'Children' ? 'selected' : '' ?>>Children</option>
+                                        </select>
                                     </td>
                                     <td>
-                                        <span class="badge <?= $row['active_inactive'] == 'Active' ? 'bg-success' : 'bg-secondary' ?>">
-                                            <?= htmlspecialchars($row['active_inactive']) ?>
-                                        </span>
+                                        <select class="active-inactive-select" data-field="active_inactive" data-id="<?= $row['id'] ?>">
+                                            <option value="Active" <?= $row['active_inactive'] == 'Active' ? 'selected' : '' ?>>Active</option>
+                                            <option value="Inactive" <?= $row['active_inactive'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="status-select" data-field="status" data-id="<?= $row['id'] ?>">
+                                            <option value="Single" <?= $row['status'] == 'Single' ? 'selected' : '' ?>>Single</option>
+                                            <option value="Married" <?= $row['status'] == 'Married' ? 'selected' : '' ?>>Married</option>
+                                            <option value="Separated" <?= $row['status'] == 'Separated' ? 'selected' : '' ?>>Separated</option>
+                                            <option value="Widowed" <?= $row['status'] == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
+                                        </select>
                                     </td>
                                     <td><?= $row['date_baptized'] ? date('M d, Y', strtotime($row['date_baptized'])) : 'N/A' ?></td>
-                                    <td>
-                                        <button class="btn btn-sm btn-info view-btn" data-id="<?= $row['id'] ?>">
-                                            <i class="fas fa-eye"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-warning edit-btn" data-id="<?= $row['id'] ?>">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-danger delete-btn" data-id="<?= $row['id'] ?>">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
                                 </tr>
                                 <?php $counter++; ?>
                             <?php endwhile; ?>
@@ -239,31 +293,6 @@ $total_pages = ceil($total_rows / $records_per_page);
                         <?php endif; ?>
                     </tbody>
                 </table>
-                
-                <!-- Pagination -->
-                <?php if ($total_pages > 1): ?>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center">
-                            <?php if ($page > 1): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
-                                </li>
-                            <?php endif; ?>
-                            
-                            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
-                                </li>
-                            <?php endfor; ?>
-                            
-                            <?php if ($page < $total_pages): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
-                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -273,7 +302,7 @@ $total_pages = ceil($total_rows / $records_per_page);
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="infoModalLabel">Add/Edit Information</h5>
+                    <h5 class="modal-title" id="infoModalLabel">Add New Information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="infoForm" action="../../function/php/save_information.php" method="POST">
@@ -343,27 +372,9 @@ $total_pages = ceil($total_rows / $records_per_page);
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- View Modal -->
-    <div class="modal fade" id="viewModal" tabindex="-1" aria-labelledby="viewModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">View Information</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="viewDetails"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
@@ -371,113 +382,70 @@ $total_pages = ceil($total_rows / $records_per_page);
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // View button click
-        document.querySelectorAll('.view-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                
-                fetch('../../function/php/get_information.php?id=' + id)
-                    .then(response => response.json())
-                    .then(data => {
+        // Function to update status, type, or active_inactive immediately
+        function updateField(id, field, value) {
+            $.ajax({
+                url: '../../function/php/update_information.php',
+                type: 'POST',
+                data: {
+                    id: id,
+                    field: field,
+                    value: value
+                },
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
                         if (data.success) {
-                            const info = data.data;
-                            const details = `
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <p><strong>Name:</strong> ${info.name}</p>
-                                        <p><strong>Age:</strong> ${info.age || 'N/A'}</p>
-                                        <p><strong>Birthday:</strong> ${info.birthday || 'N/A'}</p>
-                                        <p><strong>Contact No:</strong> ${info.contact_no || 'N/A'}</p>
-                                        <p><strong>Type:</strong> <span class="badge bg-primary">${info.type}</span></p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p><strong>Status:</strong> <span class="badge bg-info">${info.status}</span></p>
-                                        <p><strong>Active:</strong> <span class="badge ${info.active_inactive === 'Active' ? 'bg-success' : 'bg-secondary'}">${info.active_inactive}</span></p>
-                                        <p><strong>Date Saved:</strong> ${info.date_saved || 'N/A'}</p>
-                                        <p><strong>Date Baptized:</strong> ${info.date_baptized || 'N/A'}</p>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <p><strong>Address:</strong></p>
-                                        <p>${info.address || 'N/A'}</p>
-                                    </div>
-                                    <div class="col-12">
-                                        <p><strong>Occupation:</strong> ${info.occupation || 'N/A'}</p>
-                                    </div>
-                                </div>
-                            `;
-                            document.getElementById('viewDetails').innerHTML = details;
-                            new bootstrap.Modal(document.getElementById('viewModal')).show();
-                        }
-                    });
-            });
-        });
-        
-        // Edit button click
-        document.querySelectorAll('.edit-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                
-                fetch('../../function/php/get_information.php?id=' + id)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            const info = data.data;
-                            
-                            // Fill form
-                            document.getElementById('info_id').value = info.id;
-                            document.getElementById('name').value = info.name;
-                            document.getElementById('age').value = info.age || '';
-                            document.getElementById('birthday').value = info.birthday || '';
-                            document.getElementById('contact_no').value = info.contact_no || '';
-                            document.getElementById('address').value = info.address || '';
-                            document.getElementById('occupation').value = info.occupation || '';
-                            document.getElementById('type').value = info.type;
-                            document.getElementById('status').value = info.status;
-                            document.getElementById('active_inactive').value = info.active_inactive;
-                            document.getElementById('date_saved').value = info.date_saved || '';
-                            document.getElementById('date_baptized').value = info.date_baptized || '';
-                            
-                            // Show modal
-                            document.getElementById('infoModalLabel').textContent = 'Edit Information';
-                            new bootstrap.Modal(document.getElementById('infoModal')).show();
-                        }
-                    });
-            });
-        });
-        
-        // Delete button click
-        document.querySelectorAll('.delete-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                
-                if (confirm('Are you sure you want to delete this record?')) {
-                    fetch('../../function/php/delete_information.php', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: 'id=' + id
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            location.reload();
+                            // Show success message
+                            swal({
+                                title: "Success!",
+                                text: data.message,
+                                icon: "success",
+                                timer: 1000,
+                                buttons: false
+                            });
                         } else {
-                            alert('Error deleting record');
+                            swal("Error!", data.message || "Failed to update", "error");
                         }
-                    });
+                    } catch (e) {
+                        swal("Error!", "Invalid response from server", "error");
+                    }
+                },
+                error: function() {
+                    swal("Error!", "Failed to update. Please try again.", "error");
                 }
             });
+        }
+
+        // Event listener for status dropdown changes
+        $(document).on('change', '.status-select', function() {
+            const id = $(this).data('id');
+            const value = $(this).val();
+            updateField(id, 'status', value);
         });
-        
+
+        // Event listener for active/inactive dropdown changes
+        $(document).on('change', '.active-inactive-select', function() {
+            const id = $(this).data('id');
+            const value = $(this).val();
+            updateField(id, 'active_inactive', value);
+        });
+
+        // Event listener for type dropdown changes
+        $(document).on('change', '.type-select', function() {
+            const id = $(this).data('id');
+            const value = $(this).val();
+            updateField(id, 'type', value);
+        });
+
         // Add new button
         document.querySelector('[data-bs-target="#addModal"]').addEventListener('click', function() {
             document.getElementById('infoForm').reset();
             document.getElementById('info_id').value = '';
             document.getElementById('infoModalLabel').textContent = 'Add New Information';
         });
-        
-        // Form submission
+
+        // Form submission for adding new record
         document.getElementById('infoForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -490,14 +458,45 @@ $total_pages = ceil($total_rows / $records_per_page);
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    location.reload();
+                    swal({
+                        title: "Success!",
+                        text: data.message,
+                        icon: "success",
+                        timer: 1500,
+                        buttons: false
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
-                    alert('Error saving data');
+                    swal("Error!", data.message || "Failed to save data", "error");
+                }
+            });
+        });
+
+        // Search functionality
+        $('#search-input').on('input', function() {
+            const searchTerm = $(this).val().toLowerCase();
+            $('tbody tr').each(function() {
+                const text = $(this).text().toLowerCase();
+                if (text.includes(searchTerm)) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
                 }
             });
         });
     </script>
     
-    <script src="../../function/script/toggle-menu.js"></script>
+    <!-- Toggle menu function -->
+    <script>
+        function toggleMenu() {
+            const navbar = document.getElementById('navbar');
+            if (navbar.classList.contains('collapse')) {
+                navbar.classList.remove('collapse');
+            } else {
+                navbar.classList.add('collapse');
+            }
+        }
+    </script>   
 </body>
 </html>
