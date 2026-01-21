@@ -1,13 +1,9 @@
 <?php
 session_start();
-// if (!isset($_SESSION['email']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-//     header("Location: ../../../users/web/api/login.php");
-//     exit();
-// }
 
 include '../../../db.php';
 
-// Remove pagination to show all records
+// Show all records (no pagination)
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Filter functionality
@@ -70,23 +66,42 @@ $total_rows = $count_result->fetch_assoc()['total'];
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     <style>
-        .status-select {
+        .type-select {
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             border: 1px solid #ced4da;
             font-size: 0.875rem;
-            width: 100px;
+            width: 120px;
+            cursor: pointer;
         }
         
-        .status-select:focus {
+        .type-select:focus {
             outline: none;
             border-color: #86b7fe;
             box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
         }
         
-        .badge {
-            cursor: pointer;
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
         }
+        
+        .status-single { background-color: #e3f2fd; color: #1976d2; }
+        .status-married { background-color: #e8f5e9; color: #388e3c; }
+        .status-separated { background-color: #fff3e0; color: #f57c00; }
+        .status-widowed { background-color: #fce4ec; color: #c2185b; }
+        
+        .active-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .active-active { background-color: #d4edda; color: #155724; }
+        .active-inactive { background-color: #f8d7da; color: #721c24; }
         
         .table-wrapper {
             max-height: 70vh;
@@ -98,22 +113,19 @@ $total_rows = $count_result->fetch_assoc()['total'];
             top: 0;
             background-color: #f8f9fa;
             z-index: 1;
+            white-space: nowrap;
         }
         
-        .active-inactive-select {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            font-size: 0.875rem;
-            width: 100px;
+        .table td {
+            vertical-align: middle;
         }
         
-        .type-select {
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            border: 1px solid #ced4da;
-            font-size: 0.875rem;
-            width: 120px;
+        .contact-no {
+            font-family: monospace;
+        }
+        
+        .date-cell {
+            white-space: nowrap;
         }
     </style>
 </head>
@@ -171,10 +183,10 @@ $total_rows = $count_result->fetch_assoc()['total'];
                 <form method="GET" action="" class="mb-4">
                     <div class="row g-3">
                         <!-- Search -->
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="search-bars">
                                 <i class="fa fa-magnifying-glass"></i>
-                                <input type="text" class="form-control" name="search" placeholder="Search by name or address..." 
+                                <input type="text" class="form-control" name="search" placeholder="Search by name..." 
                                        value="<?= htmlspecialchars($search) ?>">
                             </div>
                         </div>
@@ -192,7 +204,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         <!-- Active/Inactive Filter -->
                         <div class="col-md-2">
                             <select class="form-control" name="active_inactive">
-                                <option value="">All Status</option>
+                                <option value="">Active/Inactive</option>
                                 <option value="Active" <?= (isset($_GET['active_inactive']) && $_GET['active_inactive'] == 'Active') ? 'selected' : '' ?>>Active</option>
                                 <option value="Inactive" <?= (isset($_GET['active_inactive']) && $_GET['active_inactive'] == 'Inactive') ? 'selected' : '' ?>>Inactive</option>
                             </select>
@@ -201,7 +213,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         <!-- Type Filter -->
                         <div class="col-md-2">
                             <select class="form-control" name="type">
-                                <option value="">All Types</option>
+                                <option value="">Type</option>
                                 <option value="Women" <?= (isset($_GET['type']) && $_GET['type'] == 'Women') ? 'selected' : '' ?>>Women</option>
                                 <option value="Men" <?= (isset($_GET['type']) && $_GET['type'] == 'Men') ? 'selected' : '' ?>>Men</option>
                                 <option value="Young People" <?= (isset($_GET['type']) && $_GET['type'] == 'Young People') ? 'selected' : '' ?>>Young People</option>
@@ -210,16 +222,27 @@ $total_rows = $count_result->fetch_assoc()['total'];
                             </select>
                         </div>
                         
-                        <!-- Action Buttons -->
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                        <!-- Status Filter -->
+                        <div class="col-md-2">
+                            <select class="form-control" name="status">
+                                <option value="">Status</option>
+                                <option value="Single" <?= (isset($_GET['status']) && $_GET['status'] == 'Single') ? 'selected' : '' ?>>Single</option>
+                                <option value="Married" <?= (isset($_GET['status']) && $_GET['status'] == 'Married') ? 'selected' : '' ?>>Married</option>
+                                <option value="Separated" <?= (isset($_GET['status']) && $_GET['status'] == 'Separated') ? 'selected' : '' ?>>Separated</option>
+                                <option value="Widowed" <?= (isset($_GET['status']) && $_GET['status'] == 'Widowed') ? 'selected' : '' ?>>Widowed</option>
+                            </select>
                         </div>
                     </div>
+                    
                     <div class="row g-3 mt-2">
-                        <div class="col-md-3">
+                        <!-- Action Buttons -->
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                        </div>
+                        <div class="col-md-2">
                             <a href="information.php" class="btn btn-secondary w-100">Clear Filters</a>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <button type="button" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#addModal">
                                 <i class="fas fa-plus"></i> Add New
                             </button>
@@ -238,29 +261,87 @@ $total_rows = $count_result->fetch_assoc()['total'];
                 <table class="table table-hover table-remove-borders">
                     <thead class="thead-light">
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
                             <th>Age</th>
-                            <th>Address</th>
-                            <th>Contact No</th>
-                            <th>Type</th>
-                            <th>Active/Inactive</th>
-                            <th>Status</th>
+                            <th>Birthday</th>
+                            <th>Contact Number</th>
+                            <th>Date Saved</th>
                             <th>Date Baptized</th>
+                            <th>Status</th>
+                            <th>Active/Inactive</th>
+                            <th>Type</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if ($result->num_rows > 0): ?>
-                            <?php $counter = 1; ?>
                             <?php while($row = $result->fetch_assoc()): ?>
                                 <tr data-id="<?= $row['id'] ?>">
-                                    <td><?= $counter ?></td>
-                                    <td><?= htmlspecialchars($row['name']) ?></td>
-                                    <td><?= $row['age'] ?: 'N/A' ?></td>
-                                    <td><?= htmlspecialchars(substr($row['address'], 0, 50)) . (strlen($row['address']) > 50 ? '...' : '') ?></td>
-                                    <td><?= htmlspecialchars($row['contact_no']) ?: 'N/A' ?></td>
                                     <td>
-                                        <select class="type-select" data-field="type" data-id="<?= $row['id'] ?>">
+                                        <strong><?= htmlspecialchars($row['name']) ?></strong>
+                                        <?php if(!empty($row['address'])): ?>
+                                            <br><small class="text-muted"><?= htmlspecialchars(substr($row['address'], 0, 30)) . (strlen($row['address']) > 30 ? '...' : '') ?></small>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php if($row['age']): ?>
+                                            <span class="badge bg-info"><?= $row['age'] ?></span>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="date-cell">
+                                        <?php if($row['birthday']): ?>
+                                            <?= date('M d, Y', strtotime($row['birthday'])) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="contact-no">
+                                        <?php if(!empty($row['contact_no']) && $row['contact_no'] !== 'N/A'): ?>
+                                            <?= htmlspecialchars($row['contact_no']) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="date-cell">
+                                        <?php if($row['date_saved']): ?>
+                                            <?= date('M d, Y', strtotime($row['date_saved'])) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="date-cell">
+                                        <?php if($row['date_baptized']): ?>
+                                            <?= date('M d, Y', strtotime($row['date_baptized'])) ?>
+                                        <?php else: ?>
+                                            <span class="text-muted">N/A</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $status_class = '';
+                                        switch($row['status']) {
+                                            case 'Single': $status_class = 'status-single'; break;
+                                            case 'Married': $status_class = 'status-married'; break;
+                                            case 'Separated': $status_class = 'status-separated'; break;
+                                            case 'Widowed': $status_class = 'status-widowed'; break;
+                                            default: $status_class = 'status-single';
+                                        }
+                                        ?>
+                                        <span class="status-badge <?= $status_class ?>">
+                                            <?= htmlspecialchars($row['status']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $active_class = $row['active_inactive'] == 'Active' ? 'active-active' : 'active-inactive';
+                                        ?>
+                                        <span class="active-badge <?= $active_class ?>">
+                                            <?= htmlspecialchars($row['active_inactive']) ?>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <select class="type-select" data-id="<?= $row['id'] ?>">
                                             <option value="Women" <?= $row['type'] == 'Women' ? 'selected' : '' ?>>Women</option>
                                             <option value="Men" <?= $row['type'] == 'Men' ? 'selected' : '' ?>>Men</option>
                                             <option value="Young People" <?= $row['type'] == 'Young People' ? 'selected' : '' ?>>Young People</option>
@@ -268,23 +349,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                                             <option value="Children" <?= $row['type'] == 'Children' ? 'selected' : '' ?>>Children</option>
                                         </select>
                                     </td>
-                                    <td>
-                                        <select class="active-inactive-select" data-field="active_inactive" data-id="<?= $row['id'] ?>">
-                                            <option value="Active" <?= $row['active_inactive'] == 'Active' ? 'selected' : '' ?>>Active</option>
-                                            <option value="Inactive" <?= $row['active_inactive'] == 'Inactive' ? 'selected' : '' ?>>Inactive</option>
-                                        </select>
-                                    </td>
-                                    <td>
-                                        <select class="status-select" data-field="status" data-id="<?= $row['id'] ?>">
-                                            <option value="Single" <?= $row['status'] == 'Single' ? 'selected' : '' ?>>Single</option>
-                                            <option value="Married" <?= $row['status'] == 'Married' ? 'selected' : '' ?>>Married</option>
-                                            <option value="Separated" <?= $row['status'] == 'Separated' ? 'selected' : '' ?>>Separated</option>
-                                            <option value="Widowed" <?= $row['status'] == 'Widowed' ? 'selected' : '' ?>>Widowed</option>
-                                        </select>
-                                    </td>
-                                    <td><?= $row['date_baptized'] ? date('M d, Y', strtotime($row['date_baptized'])) : 'N/A' ?></td>
                                 </tr>
-                                <?php $counter++; ?>
                             <?php endwhile; ?>
                         <?php else: ?>
                             <tr>
@@ -297,56 +362,52 @@ $total_rows = $count_result->fetch_assoc()['total'];
         </div>
     </div>
     
-    <!-- Add/Edit Modal -->
-    <div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <!-- Add New Modal -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="infoModalLabel">Add New Information</h5>
+                    <h5 class="modal-title" id="addModalLabel">Add New Information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form id="infoForm" action="../../function/php/save_information.php" method="POST">
                     <div class="modal-body">
-                        <input type="hidden" id="info_id" name="id">
-                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label>Name *</label>
-                                <input type="text" class="form-control" name="name" id="name" required>
+                                <input type="text" class="form-control" name="name" required>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Age</label>
-                                <input type="number" class="form-control" name="age" id="age">
+                                <input type="number" class="form-control" name="age">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Birthday</label>
-                                <input type="date" class="form-control" name="birthday" id="birthday">
+                                <input type="date" class="form-control" name="birthday">
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>Contact No</label>
-                                <input type="text" class="form-control" name="contact_no" id="contact_no">
+                                <label>Contact Number</label>
+                                <input type="text" class="form-control" name="contact_no">
                             </div>
-                            <div class="col-12 mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label>Date Saved</label>
+                                <input type="date" class="form-control" name="date_saved">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label>Date Baptized</label>
+                                <input type="date" class="form-control" name="date_baptized">
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <label>Address</label>
-                                <textarea class="form-control" name="address" id="address" rows="2"></textarea>
+                                <textarea class="form-control" name="address" rows="2"></textarea>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Occupation</label>
-                                <input type="text" class="form-control" name="occupation" id="occupation">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label>Type *</label>
-                                <select class="form-control" name="type" id="type" required>
-                                    <option value="Women">Women</option>
-                                    <option value="Men">Men</option>
-                                    <option value="Young People">Young People</option>
-                                    <option value="Young Pro">Young Pro</option>
-                                    <option value="Children">Children</option>
-                                </select>
+                                <input type="text" class="form-control" name="occupation">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Status</label>
-                                <select class="form-control" name="status" id="status">
+                                <select class="form-control" name="status">
                                     <option value="Single">Single</option>
                                     <option value="Married">Married</option>
                                     <option value="Separated">Separated</option>
@@ -355,18 +416,20 @@ $total_rows = $count_result->fetch_assoc()['total'];
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Active/Inactive</label>
-                                <select class="form-control" name="active_inactive" id="active_inactive">
+                                <select class="form-control" name="active_inactive">
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label>Date Saved</label>
-                                <input type="date" class="form-control" name="date_saved" id="date_saved">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label>Date Baptized</label>
-                                <input type="date" class="form-control" name="date_baptized" id="date_baptized">
+                                <label>Type *</label>
+                                <select class="form-control" name="type" required>
+                                    <option value="Women">Women</option>
+                                    <option value="Men">Men</option>
+                                    <option value="Young People">Young People</option>
+                                    <option value="Young Pro">Young Pro</option>
+                                    <option value="Children">Children</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -382,14 +445,14 @@ $total_rows = $count_result->fetch_assoc()['total'];
     <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Function to update status, type, or active_inactive immediately
-        function updateField(id, field, value) {
+        // Function to update Type immediately
+        function updateType(id, value) {
             $.ajax({
                 url: '../../function/php/update_information.php',
                 type: 'POST',
                 data: {
                     id: id,
-                    field: field,
+                    field: 'type',
                     value: value
                 },
                 success: function(response) {
@@ -398,87 +461,74 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         if (data.success) {
                             // Show success message
                             swal({
-                                title: "Success!",
-                                text: data.message,
+                                title: "Updated!",
+                                text: "Type updated successfully",
                                 icon: "success",
                                 timer: 1000,
                                 buttons: false
                             });
                         } else {
-                            swal("Error!", data.message || "Failed to update", "error");
+                            swal("Error!", data.message || "Failed to update type", "error");
                         }
                     } catch (e) {
                         swal("Error!", "Invalid response from server", "error");
                     }
                 },
                 error: function() {
-                    swal("Error!", "Failed to update. Please try again.", "error");
+                    swal("Error!", "Failed to update type. Please try again.", "error");
                 }
             });
         }
 
-        // Event listener for status dropdown changes
-        $(document).on('change', '.status-select', function() {
-            const id = $(this).data('id');
-            const value = $(this).val();
-            updateField(id, 'status', value);
-        });
-
-        // Event listener for active/inactive dropdown changes
-        $(document).on('change', '.active-inactive-select', function() {
-            const id = $(this).data('id');
-            const value = $(this).val();
-            updateField(id, 'active_inactive', value);
-        });
-
-        // Event listener for type dropdown changes
+        // Event listener for Type dropdown changes
         $(document).on('change', '.type-select', function() {
             const id = $(this).data('id');
             const value = $(this).val();
-            updateField(id, 'type', value);
-        });
-
-        // Add new button
-        document.querySelector('[data-bs-target="#addModal"]').addEventListener('click', function() {
-            document.getElementById('infoForm').reset();
-            document.getElementById('info_id').value = '';
-            document.getElementById('infoModalLabel').textContent = 'Add New Information';
+            updateType(id, value);
         });
 
         // Form submission for adding new record
-        document.getElementById('infoForm').addEventListener('submit', function(e) {
+        $('#infoForm').on('submit', function(e) {
             e.preventDefault();
             
-            const formData = new FormData(this);
+            const formData = $(this).serialize();
             
-            fetch(this.action, {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    swal({
-                        title: "Success!",
-                        text: data.message,
-                        icon: "success",
-                        timer: 1500,
-                        buttons: false
-                    }).then(() => {
-                        location.reload();
-                    });
-                } else {
-                    swal("Error!", data.message || "Failed to save data", "error");
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    try {
+                        const data = JSON.parse(response);
+                        if (data.success) {
+                            swal({
+                                title: "Success!",
+                                text: data.message,
+                                icon: "success",
+                                timer: 1500,
+                                buttons: false
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            swal("Error!", data.message || "Failed to save data", "error");
+                        }
+                    } catch (e) {
+                        swal("Error!", "Invalid response from server", "error");
+                    }
+                },
+                error: function() {
+                    swal("Error!", "Failed to save data. Please try again.", "error");
                 }
             });
         });
 
         // Search functionality
-        $('#search-input').on('input', function() {
+        $('input[name="search"]').on('input', function() {
             const searchTerm = $(this).val().toLowerCase();
             $('tbody tr').each(function() {
-                const text = $(this).text().toLowerCase();
-                if (text.includes(searchTerm)) {
+                const name = $(this).find('td:first-child strong').text().toLowerCase();
+                if (name.includes(searchTerm)) {
                     $(this).show();
                 } else {
                     $(this).hide();
@@ -497,6 +547,6 @@ $total_rows = $count_result->fetch_assoc()['total'];
                 navbar.classList.add('collapse');
             }
         }
-    </script>   
+    </script>
 </body>
 </html>
