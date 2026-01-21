@@ -283,7 +283,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                 <table class="table table-hover table-remove-borders">
                     <thead class="thead-light">
                         <tr>
-                            <th>Name</th>
+                            <th>Name / Address</th>
                             <th>Age</th>
                             <th>Birthday</th>
                             <th>Contact Number</th>
