@@ -35,6 +35,11 @@
                 <span>Users</span>
             </a>
 
+            <a href="information.php">
+                <span>Information</span>
+            </a>
+            
+
              <a href="gallery.php" >  
                 <span>Gallery</span>
             </a>

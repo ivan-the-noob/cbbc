@@ -28,6 +28,11 @@
                 <span>Users</span>
             </a>
 
+               <a href="information.php" class="navbar-highlight">
+                <span>Information</span>
+            </a>
+            
+
             <a href="gallery.php" class="navbar-highlight">
                 <span>Gallery</span>
             </a>
