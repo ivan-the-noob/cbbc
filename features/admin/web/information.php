@@ -1,9 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['email']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../../../users/web/api/login.php");
-    exit();
-}
+// if (!isset($_SESSION['email']) || !isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+//     header("Location: ../../../users/web/api/login.php");
+//     exit();
+// }
 
 include '../../../db.php';
 
