@@ -214,7 +214,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         <!-- Type Filter -->
                         <div class="col-md-2">
                             <select class="form-control" name="type">
-                                <option value="">Type</option>
+                                <option value="Select">Select Type</option>
                                 <option value="Women" <?= (isset($_GET['type']) && $_GET['type'] == 'Women') ? 'selected' : '' ?>>Women</option>
                                 <option value="Men" <?= (isset($_GET['type']) && $_GET['type'] == 'Men') ? 'selected' : '' ?>>Men</option>
                                 <option value="Young People" <?= (isset($_GET['type']) && $_GET['type'] == 'Young People') ? 'selected' : '' ?>>Young People</option>
