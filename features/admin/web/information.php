@@ -114,6 +114,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
             background-color: #f8f9fa;
             z-index: 1;
             white-space: nowrap;
+            color: #06850C !important;
         }
         
         .table td {
