@@ -362,13 +362,14 @@ $total_rows = $count_result->fetch_assoc()['total'];
                                             <?= htmlspecialchars($row['active_inactive']) ?>
                                         </span>
                                     </td>
-                                    <td>
+                                   <td>
                                         <select class="type-select" data-id="<?= $row['id'] ?>">
-                                            <option value="Women" <?= $row['type'] == 'Women' ? 'selected' : '' ?>>Women</option>
-                                            <option value="Men" <?= $row['type'] == 'Men' ? 'selected' : '' ?>>Men</option>
-                                            <option value="Young People" <?= $row['type'] == 'Young People' ? 'selected' : '' ?>>Young People</option>
-                                            <option value="Young Pro" <?= $row['type'] == 'Young Pro' ? 'selected' : '' ?>>Young Pro</option>
-                                            <option value="Children" <?= $row['type'] == 'Children' ? 'selected' : '' ?>>Children</option>
+                                            <option value="">Select Type</option>
+                                            <option value="Women" <?= (!empty($row['type']) && $row['type'] == 'Women') ? 'selected' : '' ?>>Women</option>
+                                            <option value="Men" <?= (!empty($row['type']) && $row['type'] == 'Men') ? 'selected' : '' ?>>Men</option>
+                                            <option value="Young People" <?= (!empty($row['type']) && $row['type'] == 'Young People') ? 'selected' : '' ?>>Young People</option>
+                                            <option value="Young Pro" <?= (!empty($row['type']) && $row['type'] == 'Young Pro') ? 'selected' : '' ?>>Young Pro</option>
+                                            <option value="Children" <?= (!empty($row['type']) && $row['type'] == 'Children') ? 'selected' : '' ?>>Children</option>
                                         </select>
                                     </td>
                                 </tr>
