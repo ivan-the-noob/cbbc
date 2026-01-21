@@ -7,6 +7,7 @@ include '../../../db.php';
 $search = isset($_GET['search']) ? $_GET['search'] : '';
 
 // Filter functionality
+// Filter functionality
 $filters = [];
 $filter_sql = "";
 
@@ -19,12 +20,11 @@ if (isset($_GET['age_max']) && $_GET['age_max'] !== '') {
 if (isset($_GET['active_inactive']) && $_GET['active_inactive'] !== '') {
     $filters[] = "active_inactive = '" . $conn->real_escape_string($_GET['active_inactive']) . "'";
 }
-if (isset($_GET['type']) && $_GET['type'] !== '') {
+if (isset($_GET['type']) && $_GET['type'] !== '' && $_GET['type'] !== 'Select') { // ADDED: && $_GET['type'] !== 'Select'
     $filters[] = "type = '" . $conn->real_escape_string($_GET['type']) . "'";
 }
-
-if (!empty($filters)) {
-    $filter_sql = " WHERE " . implode(' AND ', $filters);
+if (isset($_GET['status']) && $_GET['status'] !== '') { // ADDED: Status filter
+    $filters[] = "status = '" . $conn->real_escape_string($_GET['status']) . "'";
 }
 
 // Build query
@@ -224,9 +224,10 @@ $total_rows = $count_result->fetch_assoc()['total'];
                         </div>
                         
                         <!-- Active/Inactive Filter -->
+                        <!-- Active/Inactive Filter -->
                         <div class="col-md-2">
                             <select class="form-control" name="active_inactive">
-                                <option value="">Active/Inactive</option>
+                                <option value="">Active/Inactive</option> <!-- Already correct -->
                                 <option value="Active" <?= (isset($_GET['active_inactive']) && $_GET['active_inactive'] == 'Active') ? 'selected' : '' ?>>Active</option>
                                 <option value="Inactive" <?= (isset($_GET['active_inactive']) && $_GET['active_inactive'] == 'Inactive') ? 'selected' : '' ?>>Inactive</option>
                             </select>
