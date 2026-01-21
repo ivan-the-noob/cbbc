@@ -399,7 +399,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
                     <h5 class="modal-title" id="addModalLabel">Add New Information</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form id="infoForm" action="../../function/php/save_information.php" method="POST">
+                <form id="infoForm" action="save_information.php" method="POST">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -473,7 +473,7 @@ $total_rows = $count_result->fetch_assoc()['total'];
         // Function to update Type immediately
         function updateType(id, value) {
             $.ajax({
-                url: '../../function/php/update_information.php',
+                url: 'update_information.php',
                 type: 'POST',
                 data: {
                     id: id,
